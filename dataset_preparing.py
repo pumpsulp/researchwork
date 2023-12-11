@@ -3,7 +3,7 @@ import csv
 from PIL import Image
 
 def tiff_to_png(path):
-    """Конвертирует .tiff файлы в .png и сохраняет их в той же директории"""    
+    """Конвертирует .tiff файлы в .png и сохраняет их в директории out"""    
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
             if os.path.splitext(os.path.join(root, name))[1].lower() == ".tiff":
@@ -21,7 +21,7 @@ def tiff_to_png(path):
                     except Exception as e:
                         print(e)
 
-def dataset_preparing(path: str, labels: list[str], csv_path, img_format='.png'):
+def create_labels(path: str, labels: list[str], csv_path, img_format='.png'):
     """Находит в path файлы с расширением img_format и записывают их в csv
     labels - метки изображений (каждый файл должен начинаться с 3-х букв метки класса)"""
     with open(csv_path, 'w', newline='') as csvfile:
@@ -35,10 +35,3 @@ def dataset_preparing(path: str, labels: list[str], csv_path, img_format='.png')
                     continue
     csvfile.close()
     return 
-
-
-cur_path = os.getcwd()
-labels = ['BAS', 'EBO', 'MON', 'LYT', 'EOS', 'MYO', 'NGB', 'NGS', 'PMO']
-dataset_preparing(cur_path, labels, f'{cur_path}\\dataset\\labels.csv')
-
-
