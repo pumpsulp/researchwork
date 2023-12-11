@@ -2,7 +2,7 @@ import os
 import csv
 from PIL import Image
 
-def tiff_to_png(path):
+def tiff_to_png(path, out):
     """Конвертирует .tiff файлы в .png и сохраняет их в директории out"""    
     for root, dirs, files in os.walk(path, topdown=False):
         for name in files:
@@ -11,7 +11,8 @@ def tiff_to_png(path):
                     print(f"A png file already exists for {name}") 
                 # If a png is *NOT* present, create one from the tiff.
                 else:
-                    outfile = os.path.splitext(os.path.join(root, name))[0] + '.png'
+                    # outfile = os.path.splitext(os.path.join(root, name))[0] + '.png'
+                    outfile = out + os.path.splitext(name)[0] + '.png'
                     print(outfile)
                     try:
                         im = Image.open(os.path.join(root, name))
@@ -21,17 +22,16 @@ def tiff_to_png(path):
                     except Exception as e:
                         print(e)
 
-def create_labels(path: str, labels: list[str], csv_path, img_format='.png'):
+def create_labels(path: str, csv_path, img_format='.png'):
     """Находит в path файлы с расширением img_format и записывают их в csv
     labels - метки изображений (каждый файл должен начинаться с 3-х букв метки класса)"""
     with open(csv_path, 'w', newline='') as csvfile:
-        for root, dirs, files in os.walk(path, topdown=False):
+        for root, _, files in os.walk(path, topdown=False):
             for name in files:
-                if os.path.splitext(os.path.join(root, name))[1].lower() == img_format and name[:3] in labels: # find .png file
+                if os.path.splitext(os.path.join(root, name))[1].lower() == img_format:
                     label = name[:3] # class name (example LYT or MON)
                     label_writer = csv.writer(csvfile, delimiter=' ', quotechar=' ')
                     label_writer.writerow([name, label])
                 else:
                     continue
     csvfile.close()
-    return 
