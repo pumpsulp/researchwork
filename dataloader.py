@@ -11,7 +11,7 @@ from torchvision import transforms, utils
 class LeukocytesDataset(Dataset):
     """Leukocytes dataset."""
 
-    def __init__(self, csv_file, root_dir, transform=None):
+    def __init__(self, csv_file, root_dir, train, transform=None):
         """
         Arguments:
             csv_file (string): Path to the csv file with annotations.
@@ -22,6 +22,7 @@ class LeukocytesDataset(Dataset):
         self.landmarks_frame = pd.read_csv(csv_file)
         self.root_dir = root_dir
         self.transform = transform
+        self.train = train
 
     def __len__(self):
         return len(self.landmarks_frame)
