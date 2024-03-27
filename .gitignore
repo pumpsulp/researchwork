@@ -6,3 +6,4 @@ __pycache__/
 *.csv
 /dataset/
 /images/
+/old_scratches/
