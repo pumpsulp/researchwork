@@ -91,13 +91,13 @@ class CsvObjectsCreator(ObjectsCreator):
             
             object_storage = ObjectStorage()
             
-            for dir in path.iterdir():
-                if dir.is_dir():
+            for directory in path.iterdir():
+                if directory.is_dir():
                     continue
                 
-                cls_name = dir.stem
+                cls_name = directory.stem
                 photos = SortedSet()
-                images = self.image_loader.load_images(dir)
+                images = self.image_loader.load_images(directory)
                 
                 for image in images:
                     photos.add(Photo(matrix=np.array(image)))
@@ -105,10 +105,5 @@ class CsvObjectsCreator(ObjectsCreator):
                 obj = Object(name=cls_name, photos=photos)
                 
                 object_storage.objects.add(obj)
-                
-            return object_storage
             
-                
-                
-
-        
+            return object_storage
