@@ -21,7 +21,7 @@ class Photo:
 class Object:
     """Представляет собой объект"""
     name: str = field(default_factory=str, repr=True)
-    photos: SortedSet[Photo] = field(default_factory=SortedSet, compare=False)
+    photos: list[Photo] = field(default_factory=SortedSet, compare=False)
     
     def __len__(self):
         return len(self.photos)
@@ -35,3 +35,10 @@ class ObjectStorage:
     
     def __len__(self):
         return len(self.objects)
+    
+    def get_objects_classes(self) -> list[str]:
+        return [obj.name for obj in self.objects]
+    
+    def count_elements(self) -> int:
+        """Возвращает количество элементов хранилища"""
+        return sum(len(obj) for obj in self.objects)

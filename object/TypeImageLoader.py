@@ -21,4 +21,4 @@ class PngImageLoader(TypeImageLoader):
         return Image.open(path).convert('RGB')
     
     def load_images(self, path: Path) -> list[Image.Image]:
-        return [self.load_image(image) for image in path.glob('*.png')]
+        return [self.load_image(image) for image in path.rglob('*.png')]
