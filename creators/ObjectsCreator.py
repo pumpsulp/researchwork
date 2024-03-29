@@ -4,10 +4,9 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sortedcontainers import SortedSet
 
-from Object.Object import ObjectStorage, Photo, Object
-from Object.TypeImageLoader import TypeImageLoader
+from object.ObjectStorage import ObjectStorage, Photo, Object
+from object.TypeImageLoader import TypeImageLoader
 
 
 class ObjectsCreator(ABC):
@@ -61,11 +60,12 @@ class CsvObjectsCreator(ObjectsCreator):
                 photo = Photo(matrix=np.array(image))
                 cls = row['Class']
                 
-                if cls not in cls_images:
-                    cls_images[cls] = SortedSet([photo])
+                if cls not in cls_images.keys():
+                    cls_images[cls] = [photo]
+                    # cls_images[cls] = cls_images[cls].add(photo)
                 
                 else:
-                    cls_images[cls].add(photo)
+                    cls_images[cls].append(photo)
         
         for obj in [Object(name=cls, photos=photos) for cls, photos in cls_images.items()]:
             object_storage.objects.add(obj)
@@ -96,14 +96,15 @@ class CsvObjectsCreator(ObjectsCreator):
                     continue
                 
                 cls_name = directory.stem
-                photos = SortedSet()
+                photos = []
                 images = self.image_loader.load_images(directory)
                 
                 for image in images:
-                    photos.add(Photo(matrix=np.array(image)))
+                    photos.append(Photo(matrix=np.array(image)))
                 
                 obj = Object(name=cls_name, photos=photos)
                 
                 object_storage.objects.add(obj)
             
             return object_storage
+        
