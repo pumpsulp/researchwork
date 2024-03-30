@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 from torch.utils.data import Dataset
 
-from objects.DataSplit import DataSplit
+from objects.DataSplit import ObjectDataSplit, DataSplit
 from objects.ObjectStorage import ObjectStorage
 from objects.ObjectDataset import DatasetElement, ObjectDataset
 
