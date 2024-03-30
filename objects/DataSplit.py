@@ -1,3 +1,4 @@
+from abc import ABC
 from dataclasses import dataclass, field
 
 from numpy.random import RandomState
@@ -5,7 +6,15 @@ from sklearn.model_selection import train_test_split
 
 
 @dataclass
-class DataSplit:
+class DataSplit(ABC):
+    """Реализует различные варианты разбиения набора даннных"""
+    
+    def split(self, data):
+        raise NotImplementedError("Subclasses of DataSPlit should implement method split.")
+
+
+@dataclass
+class ObjectDataSplit(DataSplit):
     """Реализует разбиение набора данных на выборки: тренировочную, валидационную (опционально), тестовую.
     Инициализируемые параметры:
     test_size: если float - то доля от общей выборки, если int - конкретное число элементов выборки.
