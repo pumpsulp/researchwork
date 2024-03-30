@@ -3,9 +3,9 @@ from dataclasses import dataclass, field
 
 from torch.utils.data import Dataset
 
-from object.DataSplit import DataSplit
-from object.ObjectStorage import ObjectStorage
-from object.ObjectDataset import DatasetElement, ObjectDataset
+from objects.DataSplit import DataSplit
+from objects.ObjectStorage import ObjectStorage
+from objects.ObjectDataset import DatasetElement, ObjectDataset
 
 
 @dataclass
