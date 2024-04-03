@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from objects.ObjectStorage import ObjectStorage, Photo, Object
-from objects.TypeImageLoader import TypeImageLoader
+from creators.ImageLoader import ImageLoader
 
 
 class ObjectsCreator(ABC):
@@ -36,7 +36,7 @@ class CsvObjectsCreator(ObjectsCreator):
     Class должен содержать имена классов (аннотация)
     """
     
-    image_loader: TypeImageLoader
+    image_loader: ImageLoader
     
     @staticmethod
     def load_csv(path: Path) -> list[pd.DataFrame]:
@@ -71,40 +71,39 @@ class CsvObjectsCreator(ObjectsCreator):
             object_storage.objects.add(obj)
         
         return object_storage
-    
-    @dataclass
-    class FolderObjectsCreator(ObjectsCreator):
-        """Один из способов создания объектов для интерполяции для следующей файловой структуры:
-            ../путь к данным
-            ________|-first_class_folder
-            ____________|...
-            ________|...
-            ________|-last_class_folder
-            ____________|...
 
-            Названия папок являются именами классов, в каждой из папок лежат изображения соответствующих классов.
-            """
+
+@dataclass
+class FolderObjectsCreator(ObjectsCreator):
+    """Один из способов создания объектов для интерполяции для следующей файловой структуры:
+        ../путь к данным
+        ________|-first_class_folder
+        ____________|...
+        ________|...
+        ________|-last_class_folder
+        ____________|...
+        Названия папок являются именами классов, в каждой из папок лежат изображения соответствующих классов.
+        """
+    
+    image_loader: ImageLoader
+    
+    def create_objects(self, path: Path) -> ObjectStorage:
         
-        image_loader: TypeImageLoader
+        object_storage = ObjectStorage()
         
-        def create_objects(self, path: Path) -> ObjectStorage:
+        for directory in path.iterdir():
+            if not directory.is_dir():
+                continue
             
-            object_storage = ObjectStorage()
+            cls_name = directory.stem
+            photos = []
+            images = self.image_loader.load_images(directory)
             
-            for directory in path.iterdir():
-                if directory.is_dir():
-                    continue
-                
-                cls_name = directory.stem
-                photos = []
-                images = self.image_loader.load_images(directory)
-                
-                for image in images:
-                    photos.append(Photo(matrix=np.array(image)))
-                
-                obj = Object(name=cls_name, photos=photos)
-                
-                object_storage.objects.add(obj)
+            for image in images:
+                photos.append(Photo(matrix=np.array(image)))
             
-            return object_storage
+            obj = Object(name=cls_name, photos=photos)
+            
+            object_storage.objects.add(obj)
         
+        return object_storage
