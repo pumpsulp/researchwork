@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image
 
 
-class TypeImageLoader(ABC):
+class ImageLoader(ABC):
     """Реализует загрузку изображений разных форматов"""
     
     @abstractmethod
@@ -16,7 +16,7 @@ class TypeImageLoader(ABC):
         raise NotImplementedError("Subclasses of TypeImageLoader should implement method load_images.")
 
 
-class PngImageLoader(TypeImageLoader):
+class PngImageLoader(ImageLoader):
     def load_image(self, path: Path) -> Image.Image:
         return Image.open(path).convert('RGB')
     
