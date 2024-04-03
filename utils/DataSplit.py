@@ -44,6 +44,6 @@ class ObjectDataSplit(DataSplit):
                                                       shuffle=self.shuffle)
             return (ObjectDataset(data=train_data),
                     ObjectDataset(data=valid_data),
-                    ObjectDataset(data=train_data))
+                    ObjectDataset(data=test_data))
         else:
             return ObjectDataset(data=train_data), ObjectDataset(data=test_data)
