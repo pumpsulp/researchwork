@@ -13,7 +13,7 @@ class ObjectsCreator(ABC):
     """Различные реализации создания объектов"""
     
     @abstractmethod
-    def create_objects(self, path: Path):
+    def create_objects(self, path: Path, img_format: str):
         raise NotImplementedError("Subclasses of ObjectCreator should implement method create_object.")
 
 
@@ -36,13 +36,12 @@ class CsvObjectsCreator(ObjectsCreator):
     Class должен содержать имена классов (аннотация)
     """
     
-    image_loader: ImageLoader
-    
     @staticmethod
     def load_csv(path: Path) -> list[pd.DataFrame]:
         return [pd.read_csv(csv_path) for csv_path in path.rglob('*.csv')]
     
-    def create_objects(self, path: Path) -> ObjectStorage:
+    @classmethod
+    def create_objects(cls, path: Path, img_format: str) -> ObjectStorage:
         # TODO: нужен рефактор
         
         object_storage = ObjectStorage()
@@ -55,19 +54,19 @@ class CsvObjectsCreator(ObjectsCreator):
             for index, row in df.iterrows():
                 filename = row['Image']
                 # загрузка изображения
-                image = self.image_loader.load_image(Path(path / csv.stem / filename))
+                image = ImageLoader.load_image(Path(path / csv.stem / filename))
                 # получаем объект Photo
                 photo = Photo(matrix=np.array(image))
-                cls = row['Class']
+                cls_ = row['Class']
                 
-                if cls not in cls_images.keys():
-                    cls_images[cls] = [photo]
+                if cls_ not in cls_images.keys():
+                    cls_images[cls_] = [photo]
                     # cls_images[cls] = cls_images[cls].add(photo)
                 
                 else:
-                    cls_images[cls].append(photo)
+                    cls_images[cls_].append(photo)
         
-        for obj in [Object(name=cls, photos=photos) for cls, photos in cls_images.items()]:
+        for obj in [Object(name=cls_, photos=photos) for cls_, photos in cls_images.items()]:
             object_storage.objects.add(obj)
         
         return object_storage
@@ -84,10 +83,8 @@ class FolderObjectsCreator(ObjectsCreator):
         ____________|...
         Названия папок являются именами классов, в каждой из папок лежат изображения соответствующих классов.
         """
-    
-    image_loader: ImageLoader
-    
-    def create_objects(self, path: Path) -> ObjectStorage:
+    @classmethod
+    def create_objects(cls, path: Path, img_format: str) -> ObjectStorage:
         
         object_storage = ObjectStorage()
         
@@ -97,7 +94,7 @@ class FolderObjectsCreator(ObjectsCreator):
             
             cls_name = directory.stem
             photos = []
-            images = self.image_loader.load_images(directory)
+            images = ImageLoader.load_images(path=directory, img_format=img_format)
             
             for image in images:
                 photos.append(Photo(matrix=np.array(image)))
