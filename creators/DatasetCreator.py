@@ -1,11 +1,15 @@
 from abc import ABC, abstractmethod
+from collections import namedtuple
 from dataclasses import dataclass, field
 
 from torch.utils.data import Dataset
+from torch.utils.data.dataloader import DataLoader
 
-from utils.DataSplit import DataSplit
-from objects.ObjectStorage import ObjectStorage
 from objects.ObjectDataset import DatasetElement, ObjectDataset
+from objects.ObjectStorage import ObjectStorage
+from utils.DataSplit import DataSplit, ObjectDataSplit
+
+DatasetWithLoader = namedtuple('DatasetWithLoader', ['dataset', 'dataloader'])
 
 
 @dataclass
@@ -20,9 +24,10 @@ class DatasetCreator(ABC):
 @dataclass
 class ObjectDatasetCreator(DatasetCreator):
     """Реализует создание набора данных из ObjectStorage"""
-    splitter: DataSplit = field(default=None)
+    batch_size: int
+    splitter: ObjectDataSplit
     
-    def create_dataset(self, object_storage: ObjectStorage) -> Dataset | tuple[Dataset]:
+    def create_dataset(self, object_storage: ObjectStorage) -> dict[str: DatasetWithLoader]:
         data = []
         
         labels = {cls: label for label, cls in enumerate(object_storage.get_objects_classes())}
@@ -32,9 +37,15 @@ class ObjectDatasetCreator(DatasetCreator):
                 image = photo.get_image()
                 data.append(DatasetElement(Image=image, Label=labels[obj.name]))
         
-        dataset = ObjectDataset(data=data)
+        # Разделение выборки на train, val (optional), test
+        split_dataset = self.splitter.split(ObjectDataset(data=data))
         
-        if self.splitter is not None:
-            dataset = self.splitter.split(dataset)
+        if self.splitter.valid_size is not None:
+            abbr = ['train', 'val', 'test']
+        else:
+            abbr = ['train', 'test']
+        
+        dataset = {abbr: DatasetWithLoader(data, DataLoader(data, batch_size=self.batch_size))
+                   for abbr, data in zip(abbr, split_dataset)}
         
         return dataset
