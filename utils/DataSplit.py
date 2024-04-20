@@ -12,7 +12,7 @@ class DataSplit(ABC):
     """Реализует различные варианты разбиения набора даннных"""
     
     def split(self, data):
-        raise NotImplementedError("Subclasses of DataSPlit should implement method split.")
+        raise NotImplementedError("Subclasses of DataSplit should implement method split.")
 
 
 @dataclass
@@ -28,7 +28,7 @@ class ObjectDataSplit(DataSplit):
     test_size: float | int = field(default=None)
     valid_size: float | int = field(default=None)
     random_state: int | RandomState = field(default=None)
-    shuffle: bool = field(default=True)
+    shuffle: bool = field(default=False)
     
     def split(self, data):
         # TODO: требуется рефакторинг
