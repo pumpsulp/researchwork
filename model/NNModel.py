@@ -40,8 +40,3 @@ class ResNet18(NNModel):
     
     def forward(self, x):
         return F.log_softmax(self.cnn(x), dim=1)
-
-
-class SimpleCNN(NNModel):
-    """Простая CNN"""
-    ...
