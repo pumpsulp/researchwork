@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from torchvision import models
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class NNModel(nn.Module):
     """Представляет собой абстрактный класс нейронной сети\n
     Наследует nn.Module из PyTorch"""
