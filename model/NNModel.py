@@ -8,7 +8,6 @@ import torch.nn.functional as F
 from torchvision import models
 
 
-@dataclass(unsafe_hash=True)
 class NNModel(nn.Module):
     """Представляет собой абстрактный класс нейронной сети\n
     Наследует nn.Module из PyTorch"""
@@ -26,7 +25,7 @@ class NNModel(nn.Module):
     def save_model_state_dict(self, path: Path | str):
         torch.save(self.state_dict(), path)
 
-
+@dataclass(unsafe_hash=True)
 class ResNet18(NNModel):
     """Представляет собой нейронную сеть ResNet18"""
     
