@@ -39,7 +39,7 @@ class DatasetCreator:
         # Разделение выборки на train, val, test
         split_data = splitter.split(objects_data_sample)
         
-        units = [DatasetUnit(data,
+        units = [DatasetUnit(DataSample(data=data, transform=transform),
                              DataLoader(DataSample(data=data, transform=transform), batch_size=batch_size))
                  for data in split_data
                  ]
