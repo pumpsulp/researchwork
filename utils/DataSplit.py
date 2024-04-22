@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from numpy.random import RandomState
 from sklearn.model_selection import train_test_split
 
-from objects.ObjectDataset import ObjectDataset
+from objects.DataSample import Dataset
 
 
 @dataclass
@@ -42,8 +42,6 @@ class ObjectDataSplit(DataSplit):
                                                       test_size=self.valid_size,
                                                       random_state=self.random_state,
                                                       shuffle=self.shuffle)
-            return (ObjectDataset(data=train_data),
-                    ObjectDataset(data=valid_data),
-                    ObjectDataset(data=test_data))
+            return train_data, valid_data, test_data
         else:
-            return ObjectDataset(data=train_data), ObjectDataset(data=test_data)
+            return train_data, test_data
