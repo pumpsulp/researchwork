@@ -31,7 +31,6 @@ class DatasetCreator:
                test_size: float,
                valid_size: float = None,
                transform: Transform | Compose = None) -> Dataset:
-        # todo: нужен рефактор
         
         objects_data_sample = DataSampleCreator.create(data)
         
