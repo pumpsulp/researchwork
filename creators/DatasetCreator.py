@@ -36,7 +36,7 @@ class DatasetCreator:
         
         splitter = ObjectDataSplit(test_size=test_size, valid_size=valid_size)
         
-        # Разделение выборки на train, val (optional), test
+        # Разделение выборки на train, val, test
         split_data = splitter.split(objects_data_sample)
         
         units = [DatasetUnit(data,
