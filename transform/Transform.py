@@ -22,9 +22,9 @@ class ToTensor(Transform):
         # swap color axis because
         # numpy image: H x W x C
         # torch image: C x H x W
-        image = image.transpose((2, 0, 1))
+        image = np.asarray(image).transpose((2, 0, 1))
         
-        return SampleUnit(torch.tensor(np.asarray(image)), torch.tensor(label))
+        return SampleUnit(torch.tensor(image), torch.tensor(label))
 
 
 class Rescale(Transform):
