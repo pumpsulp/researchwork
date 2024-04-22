@@ -39,4 +39,4 @@ class ResNet18(NNModel):
         self.cnn.fc = nn.Linear(in_features, num_classes)
     
     def forward(self, x):
-        return F.log_softmax(self.cnn(x), dim=1)
+        return F.log_softmax(x, dim=1)
