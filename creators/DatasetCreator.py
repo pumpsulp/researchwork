@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from torch.utils.data.dataloader import DataLoader
 
 from creators.DataSampleCreator import DataSampleCreator
+from objects.DataSample import DataSample
 from objects.Dataset import Dataset
 from objects.DatasetUnit import DatasetUnit
 from objects.ObjectStorage import ObjectStorage
@@ -30,13 +31,17 @@ class DatasetCreator:
                valid_size: float = None,
                transform: Transform = None) -> Dataset:
         
-        data_sample = DataSampleCreator.create(data, transform=transform)
+        objects_data_sample = DataSampleCreator.create(data)
         
         splitter = ObjectDataSplit(test_size=test_size, valid_size=valid_size)
         
         # Разделение выборки на train, val (optional), test
-        split_data = splitter.split(data_sample)
+        split_data = splitter.split(objects_data_sample)
         
-        units = [DatasetUnit(data, DataLoader(data, batch_size=batch_size)) for data in split_data]
+        units = [DatasetUnit(
+            DataSample(data=data, transform=transform),
+            DataLoader(data, batch_size=batch_size))
+            for data in split_data
+        ]
         
         return Dataset(*units)
