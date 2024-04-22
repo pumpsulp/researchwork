@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from torch.utils.data.dataloader import DataLoader
+from torchvision.transforms import Compose
 
 from creators.DataSampleCreator import DataSampleCreator
 from objects.DataSample import DataSample
@@ -29,7 +30,7 @@ class DatasetCreator:
                batch_size: int,
                test_size: float,
                valid_size: float = None,
-               transform: Transform = None) -> Dataset:
+               transform: Transform | Compose = None) -> Dataset:
         # todo: нужен рефактор
         
         objects_data_sample = DataSampleCreator.create(data)

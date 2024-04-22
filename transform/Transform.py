@@ -31,7 +31,7 @@ class ToTensor(Transform):
 class Normalize(Transform):
     def __call__(self, sample: SampleUnit):
         image = sample.image
-        image /= 255
+        image = np.asarray(image) / 255
         return SampleUnit(image, sample.label)
         
     
