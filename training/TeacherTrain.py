@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field
-from pathlib import Path
 
 from sklearn.metrics import accuracy_score
 
-from creators.DatasetCreator import DatasetWithLoader
-
 import torch
+
+from objects.Dataset import Dataset
 
 
 @dataclass
@@ -20,20 +19,20 @@ class TeacherTrain:
             if torch.cuda.is_available():
                 self.device = torch.device("cuda")
             else:
-                print("Cuda is not available. Set device to CPU")
+                print("Cuda is not available. Set device to CPU.")
                 self.device = torch.device("cpu")
     
-    def train(self, data: dict[str: DatasetWithLoader], num_epochs: int):
+    def train(self, data: Dataset, num_epochs: int):
         # TODO: нужен рефакторинг
         
         train_losses = []
         val_losses = []
         val_accuracies = []
         
-        train_loader = data['train'].dataloader
+        train_loader = data.train.dataloader
         
         try:
-            val_loader = data['valid'].dataloader
+            val_loader = data.valid.dataloader
         except KeyError:
             val_loader = None
         
