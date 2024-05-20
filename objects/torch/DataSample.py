@@ -2,15 +2,14 @@ from dataclasses import dataclass, field
 
 import torch
 from torch.utils.data import Dataset
-
-from objects.SampleUnit import SampleUnit
-from transform.Transform import Transform
+from objects.torch.SampleUnit import SampleUnit
+from torchvision.transforms import Compose
 
 
 @dataclass
 class DataSample(Dataset):
     data: list[SampleUnit] = field(default_factory=list)
-    transform: Transform = field(default=None)
+    transform: Compose = field(default=None)
     
     def __len__(self):
         return len(self.data)
@@ -20,8 +19,9 @@ class DataSample(Dataset):
             idx = idx.to_list()
         
         sample = self.data[idx]
+        img, label = sample.image, sample.label
         
         if self.transform:
-            sample = self.transform(sample)
+            img = self.transform(img)
         
-        return sample
+        return img, label

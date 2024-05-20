@@ -1,18 +1,19 @@
 from dataclasses import dataclass
 
-from objects.DataSample import DataSample
+from torchvision.transforms import Compose
+
+from objects.torch.DataSample import DataSample
 from objects.ObjectStorage import ObjectStorage
-from objects.SampleUnit import SampleUnit
-from transform.Transform import Transform
+from objects.torch.SampleUnit import SampleUnit
 
 
 @dataclass
-class DataSampleCreator:
+class SampleCreator:
     """Реализует создание набора данных из ObjectStorage"""
     
     @classmethod
     def create(cls, object_storage: ObjectStorage,
-               transform: Transform = None) -> DataSample:
+               transform: Compose | None = None) -> DataSample:
         
         data = []
         
