@@ -18,7 +18,7 @@ class ObjectsCreator(ABC):
 
 
 @dataclass
-class CsvObjectsCreator(ObjectsCreator):
+class FromCsv(ObjectsCreator):
     """Один из способов создания объектов для интерполяции для следующей файловой структуры:
     
     ../путь к данным
@@ -41,7 +41,7 @@ class CsvObjectsCreator(ObjectsCreator):
         return [pd.read_csv(csv_path) for csv_path in path.rglob('*.csv')]
     
     @classmethod
-    def create_objects(cls, path: Path, img_format: str) -> ObjectStorage:
+    def create_objects(cls, path: Path, img_format: str = 'png') -> ObjectStorage:
         # TODO: нужен рефактор
         
         object_storage = ObjectStorage()
@@ -73,7 +73,7 @@ class CsvObjectsCreator(ObjectsCreator):
 
 
 @dataclass
-class FolderObjectsCreator(ObjectsCreator):
+class FromFolders(ObjectsCreator):
     """Один из способов создания объектов для интерполяции для следующей файловой структуры:
         ../путь к данным
         ________|-first_class_folder
@@ -84,7 +84,7 @@ class FolderObjectsCreator(ObjectsCreator):
         Названия папок являются именами классов, в каждой из папок лежат изображения соответствующих классов.
         """
     @classmethod
-    def create_objects(cls, path: Path, img_format: str) -> ObjectStorage:
+    def create_objects(cls, path: Path, img_format: str = 'png') -> ObjectStorage:
         
         object_storage = ObjectStorage()
         
