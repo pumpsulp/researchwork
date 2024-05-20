@@ -4,8 +4,6 @@ from dataclasses import dataclass, field
 from numpy.random import RandomState
 from sklearn.model_selection import train_test_split
 
-from objects.DataSample import Dataset
-
 
 @dataclass
 class DataSplit(ABC):
