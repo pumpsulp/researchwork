@@ -13,7 +13,7 @@ class ObjectsCreator(ABC):
     """Различные реализации создания объектов"""
     
     @abstractmethod
-    def create_objects(self, path: Path, img_format: str):
+    def create_objects(self, path: Path, img_format: str) -> ObjectStorage:
         raise NotImplementedError("Subclasses of ObjectCreator should implement method create_object.")
 
 

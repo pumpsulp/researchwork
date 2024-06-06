@@ -20,7 +20,7 @@ class Photo:
 @dataclass(order=True, unsafe_hash=True)
 class Object:
     """Представляет собой объект"""
-    name: str = field(default_factory=str, repr=True)
+    name: str | int = field(default_factory=str, repr=True)
     photos: list[Photo] = field(default_factory=SortedSet, compare=False)
     
     def __len__(self):
