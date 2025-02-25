@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 
 import torch
 from torch.utils.data import Dataset
-from objects.torch.SampleUnit import SampleUnit
+from dto.torch.SampleUnit import SampleUnit
 from torchvision.transforms import Compose
 
 

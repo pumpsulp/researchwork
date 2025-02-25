@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 from torchvision.transforms import Compose
 
-from objects.torch.DataSample import DataSample
-from objects.ObjectStorage import ObjectStorage
-from objects.torch.SampleUnit import SampleUnit
+from dto.torch.DataSample import DataSample
+from dto.ObjectStorage import ObjectStorage
+from dto.torch.SampleUnit import SampleUnit
 
 
 @dataclass
