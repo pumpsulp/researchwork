@@ -1,0 +1,8 @@
+# Конфигурационный файл для датасета
+train: G:/researchwork/leykocytes_dataset/train/images
+val: G:/researchwork/leykocytes_dataset/val/images
+test: G:/researchwork/leykocytes_dataset/test/images
+
+nc: 13
+
+names: ["myeloblast","lymphoblast", "neutrophil","atypical lymphocyte","promonocyte","monoblast","lymphocyte","myelocyte","abnormal promyelocyte", "monocyte","metamyelocyte","eosinophil","basophil"]
