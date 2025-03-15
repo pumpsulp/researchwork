@@ -8,3 +8,12 @@ __pycache__/
 /images/
 /old_scratches/
 /weights/
+/mit-bih-arrhytmia-database/
+/.idea/
+/yolo11n_leykocytes/
+/yolo11m_leykocytes/
+/yolo11s_leykocytes/
+/yolo11x_leykocytes/
+/runs/
+
+.yolov8n.pt
