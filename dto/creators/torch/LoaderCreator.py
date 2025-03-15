@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
 
-from creators.torch.SampleCreator import SampleCreator
-from creators.ObjectsCreator import ObjectsCreator, FromCsv
+from dto.creators.torch.SampleCreator import SampleCreator
+from dto.creators.ObjectsCreator import ObjectsCreator, FromCsv
 
 
 @dataclass
