@@ -2,13 +2,13 @@ from dataclasses import dataclass, field
 
 import torch
 from torch.utils.data import Dataset
-from dto.torch.SampleUnit import SampleUnit
+from dto.objects.torch.UnitSample import UnitSample
 from torchvision.transforms import Compose
 
 
 @dataclass
 class DataSample(Dataset):
-    data: list[SampleUnit] = field(default_factory=list)
+    data: list[UnitSample] = field(default_factory=list)
     transform: Compose = field(default=None)
     
     def __len__(self):

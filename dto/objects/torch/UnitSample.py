@@ -1,10 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from PIL.Image import Image
 
 
 @dataclass
-class SampleUnit:
-    image: Image
-    label: int
+class UnitSample:
+    image: Image = field(default_factory=Image)
+    label: int = field(default_factory=int)
     

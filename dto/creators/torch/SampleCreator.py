@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 from torchvision.transforms import Compose
 
-from dto.torch.DataSample import DataSample
-from dto.ObjectStorage import ObjectStorage
-from dto.torch.SampleUnit import SampleUnit
+from dto.objects.torch.DataSample import DataSample
+from dto.objects.ObjectStorage import ObjectStorage
+from dto.objects.torch.UnitSample import UnitSample
 
 
 @dataclass
@@ -22,7 +22,7 @@ class SampleCreator:
         for obj in object_storage.objects:
             for photo in obj.photos:
                 image = photo.get_image()
-                data.append(SampleUnit(image, labels[obj.name]))
+                data.append(UnitSample(image, labels[obj.name]))
         
         data_sample = DataSample(data=data, transform=transform)
         
