@@ -27,7 +27,3 @@ services:
       - "8888:8888"
     volumes:
       - .:/workspace
-    device_requests:
-      - driver: nvidia
-        count: all
-        capabilities: [gpu]
