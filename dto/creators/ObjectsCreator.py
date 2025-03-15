@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from dto.ObjectStorage import ObjectStorage, Photo, Object
-from creators.ImageLoader import ImageLoader
+from dto.objects.ObjectStorage import ObjectStorage, Photo, Object
+from dto.creators.ImageLoader import ImageLoader
 
 
 class ObjectsCreator(ABC):
