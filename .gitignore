@@ -10,10 +10,10 @@ __pycache__/
 /weights/
 /mit-bih-arrhytmia-database/
 /.idea/
-/yolo11n_leykocytes/
-/yolo11m_leykocytes/
-/yolo11s_leykocytes/
-/yolo11x_leykocytes/
+/yolo11n_leukocytes/
+/yolo11m_leukocytes/
+/yolo11s_leukocytes/
+/yolo11x_leukocytes/
 /runs/
 
 .yolov8n.pt
